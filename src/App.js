@@ -17,6 +17,7 @@ function App() {
   })
   const provider = new firebase.auth.GoogleAuthProvider();
 
+  // sign in button handler
   const handleSign = () => {
     firebase.auth().signInWithPopup(provider)
     .then(res => {
@@ -32,7 +33,7 @@ function App() {
       setUser(signedIn);
     })
   }
-
+// sign out button handler
   const handleSignOut = () => {
       firebase.auth().signOut()
       .then(res => {
@@ -45,6 +46,24 @@ function App() {
 
         setUser(signOut);
       })
+  }
+  const handleSubmit = () => {
+
+  }
+// for getting the value
+  const handleBlur = (e) => {
+    console.log(e.target.name,e.target.value);
+// is email valid
+    if (e.target.name === 'email') {
+        const isEmailValid = /\S+@\S+\.\S+/.test(e.target.value);
+        console.log(isEmailValid);
+    }
+
+    if (e.target.name === 'password') {
+        const isPasswordValid = e.target.value.length > 6;
+        const passwordHasNumber = /\d{1}/.test(e.target.value);
+        console.log(isPasswordValid,passwordHasNumber);
+    }
   }
   return (
     <div className="App">
@@ -60,6 +79,18 @@ function App() {
             <img src={user.photo} alt=""/>
           </div>
         }
+
+        <h1>Our own authentication</h1>
+          {/* form */}
+        <form onSubmit={handleSubmit}>
+        <input onBlur={handleBlur} type="text" placeholder="Enter your email" required name="email" id=""/>
+        <br/>
+        <br/>
+        <input onBlur={handleBlur} type="password" placeholder="Enter your password" name="password" id="" required/>
+        <br/>
+        <br/>
+        <input type="submit" value="submit"/>
+        </form>
     </div>
   );
 }
